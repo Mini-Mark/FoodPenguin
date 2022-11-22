@@ -1,0 +1,151 @@
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/popup.css" asp-append-version="true" />
+
+<div class="backdrop-container">
+    <div class="modal">
+        <div class="frame">
+            <div class="header">
+                <h2><b>แก้ไขโปรไฟล์</b></h2>
+            </div>
+            <div class="container">
+                <div class="left">
+                    <div class="image">
+                        <img src="~/images/logo.jpg"
+                             for="profile_image" id="show_profile_image" />
+                    </div>
+                    <div class="button">
+                        <label for="profile_image">Choose Image</label>
+                        <input id="profile_image" type="file" style="display: none;" />
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="double line">
+                        <div class="box">
+                            <label for="firstname">Firstname</label><input id="firstname" type="text" />
+                        </div>
+                        <div class="box">
+                            <label for="lastname">Lastname</label><input id="lastname" type="text" />
+                        </div>
+                    </div>
+                    <div class="double line">
+                        <div class="box">
+                            <label for="password">Password</label><input id="password" type="password" />
+                        </div>
+                        <div class="box">
+                            <label for="repassword">Re-password</label><input id="repassword" type="password" />
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="box">
+                            <label for="nickname">Nickname</label><input id="nickname" type="text" />
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="box">
+                            <label for="pay_img">Payment image</label><input id="pay_img" type="file" />
+                            <div class="view-pay-img" onclick="viewPayImage()">View Image</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-modal">
+                <button class="cancel" id="modal-close-btn">ยกเลิก</button>
+                <button class="submit" onclick="submit()">บันทึก</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var pay_image = sessionStorage.getItem("pay_img");
+    var profile_image = sessionStorage.getItem("profile_img");
+
+    $(".modal #pay_img").on('change', function () {
+        readImage($(this)).done(function (base64Data) {
+            pay_image = base64Data;
+        });
+    });
+
+    $(".modal #profile_image").on('change', function () {
+        readImage($(this)).done(function (base64Data) {
+            profile_image = base64Data;
+            $(".modal #show_profile_image").attr("src", profile_image);
+        });
+    });
+
+    $(".modal #firstname").val(sessionStorage.getItem("firstname"));
+    $(".modal #lastname").val(sessionStorage.getItem("lastname"));
+    $(".modal #nickname").val(sessionStorage.getItem("nickname"));
+    $(".modal #pay_img").attr("src", pay_image);
+
+    if (profile_image != "") {
+        $(".modal #show_profile_image").attr("src", profile_image);
+    }
+
+    function submit() {
+
+        if ($(".modal #password").val() != $(".modal #repassword").val()) {
+            alert("รหัสผ่านไม่ถูกต้อง");
+            $(".modal #password").val("")
+            $(".modal #repassword").val("")
+            return;
+        } else {
+            if ($(".modal #password").val() != "") {
+                $.ajax({
+                    url: `/User/updateUserData`,
+                    type: "PUT",
+                    data: JSON.stringify({ 
+                        user_id: parseInt(sessionStorage.getItem("user_id")),
+                        password: $(".modal #password").val()
+                    }),
+                    contentType: "application/json; charset=utf-8",
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+
+        var sendJson = {};
+
+        sendJson["user_id"] = parseInt(sessionStorage.getItem("user_id"));
+        sendJson["firstname"] = $(".modal #firstname").val() ?? null;
+        sendJson["lastname"] = $(".modal #lastname").val() ?? null;
+        sendJson["nickname"] = $(".modal #nickname").val() ?? null;
+        sendJson["pay_img"] = pay_image ?? null;
+        sendJson["profile_img"] = profile_image ?? null;
+
+        console.log(sendJson);
+
+        $.ajax({
+            url: `/User/updateUserData`,
+            type: "PUT",
+            data: JSON.stringify(sendJson),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                sessionStorage.setItem("firstname", data.value.firstname);
+                sessionStorage.setItem("lastname", data.value.lastname);
+                sessionStorage.setItem("nickname", data.value.nickname);
+                sessionStorage.setItem("pay_img", data.value.pay_img);
+                sessionStorage.setItem("profile_img", data.value.profile_img);
+
+                alert("อัพเดทข้อมูล สำเร็จ");
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+
+    }
+
+    function viewPayImage(){
+        showImage(pay_image);
+    }
+
+
+
+                //$(".modal #profile_img").val(sessionStorage.getItem("profile_img", data.value.profile_img));
+</script>

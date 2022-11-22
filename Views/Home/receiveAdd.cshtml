@@ -1,0 +1,210 @@
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/deposit.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/popup.css" asp-append-version="true" />
+
+<div class="backdrop-container">
+    <div class="modal">
+        <div class="frame">
+            <div class="header">
+                <h2><b>รับฝากอาหาร</b></h2>
+            </div>
+            <div class="container">
+                <div class="line flex">
+                    <div class="left">
+                        <label for="location"><b>สถานที่</b></label>
+                        <div class="select">
+                            <div class="select-icon">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                            <select id="location">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="title box">
+                        <div class="left">
+                            <div class="protect-newline">
+                                <b>ร้านอาหาร</b><span class="text-danger">
+                                    ( ถ้าต้องการเพิ่มร้านอาหารให้กด [ + ]
+                                    )
+                                </span>
+                            </div>
+                        </div>
+                        <div class="last">&nbsp;</div>
+                    </div>
+                    <div class="marketList" id="marketList">
+                        
+                    </div>
+                    <div class="tool box">
+                        <div class="select">
+                            <div class="select-icon">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                            <select id="market" class="left">
+                        </select>
+                        </div>
+                        
+                        <div class="last" onclick="addMarket()">
+                            <div class="action-btn action-success">
+                                <i class="fas fa-circle-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="line">
+                    <label for="remark">
+                        <b>รายละเอียด</b><span class="text-danger">( กรอกหรือไม่กรอกก็ได้ )</span>
+                    </label>
+                    <textarea id="remark" rows="5"></textarea>
+                </div>
+                <div class="line">
+                    <label for="maximum">
+                        <b>จำนวนคนที่รับ</b><span class="text-danger">( สูงสุด 10 คน )</span>
+                    </label>
+                    <input type="number" id="maximum" />
+                </div>
+            </div>
+            <div class="footer-modal">
+                <button class="cancel" id="modal-close-btn">ยกเลิก</button>
+                <button class="submit" onclick="submit()">ตั้งรับฝาก</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$.ajax({
+    url: `../Location/getLocation`,
+        type: "GET",
+        success: function (data) {
+            console.log(data)
+
+            getMarket(data.value[0].loc_id);
+
+            data.value.forEach((item, index) => {
+                $("#location").append(`
+<option value='${item.loc_id}'>${item.name}</option>`)
+            });
+
+        },
+        error: function (error) { 
+            console.log(`Error ${error}`);
+        }
+    });
+
+
+    function getMarket(loc_id){
+        $.ajax({
+            url: `../Location/getMarketFromLocID`,
+            type: "GET",
+            data: {
+                'loc_id': loc_id
+            },
+            success: function (data) {
+                console.log(data)
+                $("#market").html("");
+                data.value.forEach((item, index) => {
+                    $("#market").append(`
+<option value='${item.market_id}'>${item.name}</option>`)
+                });
+
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    $('#location').change(function() {
+        getMarket($(this).val());
+    });
+
+    var realData = [];
+    var showData = [];
+    function addMarket(){
+
+        var id = $("#market").val();
+        var name = $("#market option:selected").html();
+        
+        item = `${id},${name}`;
+
+        showData.push(item);
+        realData.push(id);
+
+        showListMarket();
+    }
+
+    function removeMarket(market){
+
+        var removeIndex = showData.indexOf(market);
+
+        showData.splice(removeIndex, 1);
+        realData.splice(removeIndex, 1);
+
+        showListMarket();
+    }
+
+    function showListMarket() {
+
+        $("#marketList").html("");
+
+        showData.forEach((item,index) => {
+            item_data = item.split(",");
+
+            $("#marketList").append(`<div class="item box">
+                            <div class="left">- ${item_data[1]}</div>
+                            <div class="last">
+                                <div class="action-btn action-danger" onclick="removeMarket('${item}')">
+                                    <i class="fas fa-circle-xmark"></i>
+                                </div>
+                            </div>
+                        </div>`);
+
+        });
+    }
+
+    function submit() {
+
+        if (realData.length == 0) {
+            alert("กรุณากรอกข้อมูล รายการร้านอาหาร")
+            return;
+        }
+
+        if ($("#maximum").val() > 10) {
+            alert("ไม่สาามารถรับฝากได้ มากกว่า 10 คน");
+            return;
+        }
+
+        var json = new Object();
+
+        json.user_id = sessionStorage.getItem("user_id");
+        json.loc_id =  $("#location").val();
+        json.market = realData;
+        json.desc = $("#remark").val();
+        json.max = $("#maximum").val();
+
+        var postData = JSON.stringify(json);
+        
+        $.ajax({
+            url: "../Receive/insertReceive",
+            type: "POST",
+            data: postData,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                console.log(data)
+                alert("ตั้งรับฝากสำเร็จ");
+                location.href = `/Home/Receive_Progress_Step_1?id=${data.value}`;
+            },
+            error: function(error) {
+                console.log(`Error ${error}`);
+            }
+
+        });
+        
+        
+
+    }
+</script>

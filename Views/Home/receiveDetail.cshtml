@@ -1,0 +1,73 @@
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/depositDetail.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/popup.css" asp-append-version="true" />
+<div class="backdrop-container">
+    <div class="modal">
+        <div class="frame">
+            <div class="header">
+                <h2><b>รายละเอียดการรับฝากอาหาร</b></h2>
+            </div>
+            <div class="container" id="modal-container-inline-data-js">
+                
+            </div>
+            <div class="footer-modal">
+                <button class="exit" id="modal-close-btn">ออก</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var modal_data_id = $("#hiddenData").val()
+    $.ajax({
+        url:
+            `../Receive/getReceiveDetailByID`,
+        type: "GET",
+        data: { recvp_id: modal_data_id },
+        success: function (data) {
+            showdata = data.value;
+
+            member_amount = showdata.member.length;
+
+            $("#modal-container-inline-data-js").html("");
+            var objectHTML = `<div class="line">
+                    <b>สถานที่:</b><span>${showdata.location_name}</span>
+                </div>
+                <div class="line">
+                    <b>ร้านที่รับ:</b>
+                    <ul id="modal-container-inline-market-list">
+                    </ul>
+                </div>
+                <div class="line">
+                    <b>คนรับฝาก:</b><span>${showdata.firstname} ${showdata.lastname} (${showdata.nickname})</span>
+                </div>
+                <div class="line">
+                    <b>เวลา:</b><span>${showdata.time}</span>
+                </div>
+                <div class="line">
+                    <b>หมายเหตุ</b>
+                    <div class="remark">${showdata.desc}</div>
+                </div>
+                <div class="line">
+                    <b>จำนวนคนรับ:</b><span>${member_amount}/5</span>
+                </div>`;
+
+            $("#modal-container-inline-data-js").html(objectHTML);
+
+            showdata.market.forEach((item, index) => {
+
+                var objectHTML_Market = `<li>${item.name}</li>`;
+                               
+                $("#modal-container-inline-market-list").append(objectHTML_Market);
+            });
+
+            
+            
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
+</script>

@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    ViewData["Css"] = "/css/login.css";
+}
+
+<div class="container">
+    <div class="left">
+        <div class="small-container">
+            <div class="title">Login</div>
+            <div class="subtitle">Food Penguin</div>
+            <div class="user-input">
+                <i class="fa-solid fa-user icon"></i>
+                <input type="text" placeholder="Username" id="username">
+            </div>
+            <div class="password-input">
+                <i class="fa-solid fa-lock-open icon"></i></i>
+                <input type="password" placeholder="Password" id="password">
+            </div>
+            <div class="button">
+                <button class="button1" onclick="Login()"><i class="fa-solid fa-arrow-right icon2"></i>Login</button>
+            </div>
+        </div>
+        <div class="area">
+            <ul class="circles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div class="small-container">
+            <div class="logo"><img src="~/images/logo.jpg" class="logo1"></div>
+            <div class="title">Food Penguin</div>
+        </div>
+        <div class="area">
+            <ul class="circles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Login() {
+
+        username = $("#username").val();
+        password = $("#password").val();
+
+        $.ajax({
+            url:
+                `/User/Login?username=${username}&password=${password}`,
+            type: "GET",
+            success: function (data) {
+
+                if(data.statusCode == 404){
+                    
+                    alert("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
+                } else {
+                    sessionStorage.setItem("user_id", data.value.user_id);
+                    sessionStorage.setItem("username", data.value.username);
+                    sessionStorage.setItem("firstname", data.value.firstname);
+                    sessionStorage.setItem("lastname", data.value.lastname);
+                    sessionStorage.setItem("nickname", data.value.nickname);
+                    sessionStorage.setItem("pay_img", data.value.pay_img);
+                    sessionStorage.setItem("profile_img", data.value.profile_img);
+
+                    location.href = "/Home/Main"
+                }
+
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+                alert("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
+            }
+        });
+    }
+</script>

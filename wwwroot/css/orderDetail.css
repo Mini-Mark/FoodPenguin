@@ -1,0 +1,84 @@
+b {
+  font-weight: bold;
+}
+
+.modal .frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.modal .frame button {
+  cursor: pointer;
+}
+.modal .frame .header {
+  text-align: center;
+  border-bottom: 1px solid rgb(190, 190, 190);
+}
+.modal .frame .header h2 {
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.modal .frame .container {
+  margin-top: 30px;
+  flex: 1;
+}
+.modal .frame .container .line {
+  margin-bottom: 15px;
+}
+.modal .frame .container .line.flex {
+  display: flex;
+  justify-content: space-between;
+}
+.modal .frame .container .line.flex .right {
+  text-align: center;
+}
+.modal .frame .container .line.flex ul {
+  margin: 0px;
+}
+.modal .frame .container .line span {
+  margin-left: 15px;
+}
+.modal .frame .container .line .remark {
+  margin-left: 20px;
+}
+.modal .frame .footer-modal {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid rgb(190, 190, 190);
+  padding-top: 20px;
+}
+.modal .frame .footer-modal button {
+  border: none;
+  padding: 5px 20px;
+}
+.modal .frame .footer-modal .exit {
+  background: var(--blue);
+  color: white;
+  border-radius: 20px;
+  transition-duration: 0.2s;
+  font-size: 1.2em;
+}
+.modal .frame .footer-modal .exit:hover {
+  background: #6399c0;
+  transition-duration: 0.2s;
+}
+
+@media only screen and (max-width: 650px) {
+  .modal .frame .header {
+    display: none;
+  }
+  .modal .frame .container {
+    margin-top: 0px;
+    padding: 10px;
+  }
+  .modal .frame .footer-modal {
+    justify-content: center;
+    border: none;
+    margin-bottom: 25px;
+  }
+  .modal .frame .footer-modal .exit {
+    width: 80%;
+    height: 50px;
+    font-size: 1.2em;
+  }
+}/*# sourceMappingURL=orderDetail.css.map */

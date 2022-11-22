@@ -1,0 +1,138 @@
+@{
+    ViewData["Title"] = "Order List";
+    ViewData["Css"] = "/css/main.css";
+}
+<div class="main-container">
+    <div class="main-left">
+        <div class="logo">
+            <img src="~/images/logo.jpg" />
+        </div>
+        <div class="label">
+            Food Penguin
+        </div>
+        <hr />
+        <div class="menu">
+            <div class="item item-1" onclick="window.location.href='main.html'">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="text">รายการทั้งหมด</div>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div class="text">ประวัติการตั้งรับ - ฝาก</div>
+            </div>
+            <hr />
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+                <div class="text">กำลังดำเนินการ</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="header">
+            <div class="title">
+                <!-- <div class="back-btn active" onclick="history.back">
+                    <i class="fas fa-angle-left"></i>
+                </div> -->
+                กำลังดำเนินการ
+            </div>
+            <div class="profile">
+                <div class="name">Kotcharat Kung</div>
+                <div class="image">
+                    <img src="~/images/logo.jpg" />
+                </div>
+                <div class="dropdown">
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1">
+                        <i class="fas fa-pen"></i> &nbsp; แก้ไขโปรไฟล์
+                    </div>
+                    <div class="dropdown-item dropdown-item-2">
+                        <i class="fas fa-door-open"></i> &nbsp;
+                        ออกจากระบบ
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="list" id="list_show"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="menu">
+            <div class="item item-1" onclick="window.location.href='main.html'" ">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div class="item item-2" ">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(() => {
+        $.ajax({
+            url: `/List/getListProgressFromUser`,
+            type: "GET",
+            data: {
+                user_id: sessionStorage.getItem("user_id"),
+            },
+            success: function (data) {
+                $("#list_show").html("");
+                if (data.statusCode == 404) {
+                    $("#list_show").html(`<center><p>ไม่พบข้อมูล</p></center>`);
+                    return;
+                }
+
+                data.value.forEach((item, index) => {
+
+                    var objectHtml = ""
+
+                    var order_market = item.special != undefined ? item.special : item.market_name;
+
+                    var item_id = item.id != undefined ? item.id : item.order_id;
+
+                    objectHTML = `<div class="item order itemgen-${item_id}" onclick="location.href='/Home/Order_Progress_Step_1?id=${item_id}'">
+                                        <div class="main-icon">
+                                            <i class="fa-solid fa-bowl-food"></i>
+                                        </div>
+                                        <div class="detail">
+                                            <div class="title desc">
+                                                <div class="icon">
+                                                    <i class="fa-solid fa-bowl-food"></i>
+                                                </div>
+                                                        ${item.location_name} (${order_market})
+                                            </div>
+                                            <div class="desc-1 desc">
+                                                <b>คนสั่ง:</b>
+                                                    <p>${item.firstname} ${item.lastname} (${item.nickname})</p>
+                                            </div>
+                                            <div class="desc-3 desc">
+                                                <b>หมายเหตุ:</b><span>
+                                                        ${item.remark}
+                                                </span>
+                                            </div>
+                                            <div class="datetime desc">
+                                                    <p>${item.time}</p>
+                                            </div>
+                                        </div>
+                                    </div>`;
+
+                    $("#list_show").append(objectHTML);
+                });
+
+            },
+            error: function (error) {
+                $("#list_show").html("");
+                console.log(`Error ${error}`);
+            }
+        });
+    }, 100)
+</script>

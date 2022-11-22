@@ -1,0 +1,80 @@
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/orderDetail.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/popup.css" asp-append-version="true" />
+<div class="backdrop-container">
+    <div class="modal">
+        <div class="frame">
+            <div class="header">
+                <h2><b>รายละเอียดการสั่งอาหาร</b></h2>
+            </div>
+            <div class="container" id="modal-container-inline-data-js">
+                
+            </div>
+            <div class="footer-modal">
+                <button class="exit" id="modal-close-btn">ออก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modal_data_id = $("#hiddenData").val()
+    $.ajax({
+        url:
+            `../Order/getOrderDetailByID`,
+        type: "GET",
+        data: { order_id: modal_data_id },
+        success: function (data) {
+            showdata = data.value;
+            $("#modal-container-inline-data-js").html("");
+            var objectHTML = `<div class="line"><b>สถานที่:</b><span>เก 4</span></div>
+                    <div class="line">
+                                <b>ชื่อร้าน:</b><span>${showdata.market_name}</span>
+                    </div>
+                    <div class="line">
+                                    <b>ชื่อคนสั่ง:</b><span>${showdata.firstname} ${showdata.lastname} (${showdata.nickname})</span>
+                    </div>
+                    <div class="line">
+                            <b>เวลา:</b><span>${showdata.time}</span>
+                    </div>
+                    <div class="line flex">
+                            <div class="left" style="margin-left: 0px;">
+                                    <b>รายการที่สั่ง:</b>
+                                        <ul id="modal-container-inline-data-js-food-list-name">
+                                        
+                                    </ul>
+                                </div>
+                                    <div class="right" id="modal-container-inline-data-js-food-list-amount">
+                                    <b>จำนวน</b>
+                                        
+                                    </div>
+                    </div>
+                    <div class="line">
+                        <b>หมายเหตุ</b>
+                        <div class="remark">
+                                ${showdata.remark}
+                        </div>
+                        </div>`;
+
+            $("#modal-container-inline-data-js").html(objectHTML);
+
+            showdata.food.forEach((item, index) => {
+
+                var objectHTML_Name = `<li>${item.name}</li>`;
+                var objectHTML_Amount = `<div class="amount">${item.amount}</div>`;
+                               
+                $("#modal-container-inline-data-js-food-list-name").append(objectHTML_Name);
+                $("#modal-container-inline-data-js-food-list-amount").append(objectHTML_Amount);
+            });
+
+            
+            
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
+</script>

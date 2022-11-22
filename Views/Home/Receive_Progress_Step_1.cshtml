@@ -1,0 +1,253 @@
+@{
+    ViewData["Title"] = "Step 1";
+    ViewData["Css"] = "/css/Progress_Step_1wo.css";
+}
+<div class="main-container">
+    <div class="main-left">
+        <div class="logo">
+            <img src="~/images/logo.jpg" />
+        </div>
+        <div class="label">
+            Food Penguin
+        </div>
+        <hr />
+        <div class="menu">
+            <div class="item item-1">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="text">รายการทั้งหมด</div>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div class="text">ประวัติการตั้งรับ - ฝาก</div>
+            </div>
+            <hr />
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+                <div class="text">กำลังดำเนินการ</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="header">
+            <div class="title">
+                <div class="back-btn active" onclick="history.back">
+                    <i class="fas fa-angle-left"></i>
+                </div>
+                รายการทั้งหมด
+            </div>
+            <div class="profile">
+                <div class="name">Kotcharat Kung</div>
+                <div class="image">
+                    <img src="~/images/logo.jpg" />
+                </div>
+                <div class="dropdown">
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1">
+                        <i class="fas fa-pen"></i> &nbsp; แก้ไขโปรไฟล์
+                    </div>
+                    <div class="dropdown-item dropdown-item-2">
+                        <i class="fas fa-door-open"></i> &nbsp;
+                        ออกจากระบบ
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="bigContentBox">
+                <div class="contentBox">
+                    <div class="loadIcon"><h1><i class="fa-solid fa-spinner fa-spin bigIcon"></i><br>รอคนสั่งอาหาร</h1></div>
+                    <hr>
+                    <div class="status margin-l"><span class="text-Green text-bold">สถานที่ : <span id="location_name"></span></span></div>
+                    <div class="List">
+                        <div class="list margin-l">
+                            <span class="text-bold">ร้านที่รับ: </span><ul id="market"></ul>
+                        </div>
+                    </div>
+                    <div class="time1"><span class="time text-bold">เวลา : <span id="time"></span></span></div>
+                    <div class="note margin-l"><span class="text-bold text-note">หมายเหตุ:</span> <div class="smallNote left"> <span id="desc"></span></div></div>
+                    <hr>
+                    <div class="status margin-l last-status">
+                        <span class="text-Green text-bold">รายการคนที่สั่งอาหาร <span id="maximum"></span></span>
+                        <ul id="memberList"></ul>
+                    </div>
+                    <div class="BTcenter">
+                        <div class="PayBTcenter">
+                            <div class="QRcodeBT"><button onclick="cancel()">ยกเลิกการฝากซื้อ</button></div>
+                            <div class="UploadBT"><button onclick="submit()">ทำรายการต่อไป</button></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="menu">
+                <div class="item item-1">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div class="item item-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div class="item item-3 active">
+                    <i class="fa-solid fa-spinner"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id = parseInt(window.location.search.replace("#", "").replace("?id=", ""));
+    setTimeout(() => {
+        loadData()
+    }, 100);
+
+    setInterval(() => {
+        loadData()
+    }, 2500);
+
+    var status = 1;
+
+    function loadData() {
+        $.ajax({
+            url:
+                `../Receive/getReceiveDetailByID`,
+            type: "GET",
+            data: { recvp_id: id },
+            success: function (data) {
+
+                if (data.value.member.length != 0) {
+                    status = data.value.member[0].status;
+                    console.log(status);
+
+                    //Change Page By Status
+                    if (status != 1) {
+                        switch (parseInt(status)) {
+                            case 0:
+                                location.href = `/Home/Progress_Step_0_Cancel`
+                                break;
+                            case 1:
+                                location.href = `/Home/Receive_Progress_Step_1?id=${id}`
+                                break;
+                            case 2:
+                                location.href = `/Home/Receive_Progress_Step_2?id=${id}`
+                                break;
+                            case 3:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 4:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 5:
+                                location.href = `/Home/Progress_Step_4_Success`
+                                break;
+                        }
+                        return;
+                    }
+                }
+
+                $("#location_name").html(data.value.location_name);
+                $("#desc").html(data.value.desc);
+                $("#time").html(data.value.time);
+
+                $("#maximum").html(`( ${data.value.member.length} / ${data.value.max} )`);
+
+                $("#market").html("");
+                data.value.market.forEach((item, index) => {
+
+                    var objectHTML = `<li>${item.name}</li>`;
+
+                    $("#market").append(objectHTML);
+                });
+
+                $("#market").html("");
+                data.value.market.forEach((item, index) => {
+
+                    var objectHTML = `<li>${item.name}</li>`;
+
+                    $("#market").append(objectHTML);
+                });
+
+                $("#memberList").html("");
+                data.value.member.forEach((item, index) => {
+
+                    var objectHTML = `<li>${item.firstname} ${item.lastname} (${item.nickname})
+                            <a href="#" onclick="openOrderDetailPopup(${item.order_id})"> ดูรายละเอียด</a>
+                                <a href="#" class="cancel" onclick="cancelOrderUserByOrderID(${item.order_id})"> ยกเลิก</a></li>`;
+
+                    $("#memberList").append(objectHTML);
+                });
+
+
+
+                console.log(data)
+
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    function cancel() {
+        let text = "คุณต้องการยกเลิกรายการหรือไม่";
+        if (confirm(text) == true) {
+            $.ajax({
+                url: `../Receive/cancelReceive`,
+                type: "DELETE",
+                data: { recvp_id: id },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+
+            location.href = '/Home/Progress_Step_0_Cancel';
+        }
+
+
+    }
+
+    function cancelOrderUserByOrderID(id) {
+        $.ajax({
+            url: `../Process_Order/updateProcessOrderByOrderID`,
+            type: "PUT",
+            data: JSON.stringify({ order_id: id, recvp_id: 0 }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+
+        loadData();
+    }
+
+    function submit() {
+        let text = "คุณต้องการทำรายการเลยหรือไม่";
+        if (confirm(text) == true) {
+            $.ajax({
+                url: `../Process_Order/updateProcessOrderByRecvpID`,
+                type: "PUT",
+                data: JSON.stringify({ recvp_id: id, status: 2 }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+        }
+        
+    }
+
+</script>

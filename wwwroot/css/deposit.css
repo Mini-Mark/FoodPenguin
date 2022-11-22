@@ -1,0 +1,190 @@
+b {
+  font-weight: bold;
+}
+
+.modal .frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.modal .frame button {
+  cursor: pointer;
+}
+.modal .frame .header {
+  text-align: center;
+  border-bottom: 1px solid rgb(190, 190, 190);
+}
+.modal .frame .header h2 {
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.modal .frame .container {
+  flex: 1;
+}
+.modal .frame .container .select {
+  position: relative;
+}
+.modal .frame .container .select .select-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.modal .frame .container .select select {
+  border: none;
+  background: var(--grey);
+  padding: 10px 10px;
+  border-radius: 25px;
+  width: 100%;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.modal .frame .container .select select#market {
+    align-self: center;
+}
+
+.modal .frame .container input,
+.modal .frame .container textarea {
+  border: none;
+  background: var(--grey);
+  padding: 10px 20px;
+  border-radius: 25px;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+.modal .frame .container textarea {
+  width: 100% !important;
+}
+.modal .frame .container .action-btn {
+  cursor: pointer;
+}
+.modal .frame .container .line {
+  margin-top: 15px;
+}
+.modal .frame .container .line label span,
+.modal .frame .container .line .protect-newline span {
+  margin-left: 10px;
+}
+.modal .frame .container .line .item {
+  border-bottom: 1px solid var(--grey);
+}
+.modal .frame .container .line .item .left {
+  margin-left: 10px;
+}
+.modal .frame .container .line .tool {
+  margin-top: 15px;
+}
+.modal .frame .container .line .tool {
+    margin-top: 15px;
+}
+    .modal .frame .container .line .tool.box .select {
+        width: 100%;
+        height: 100%;
+    }
+    
+
+.modal .frame .container .line.flex,
+.modal .frame .container .line .box {
+    display: flex;
+    -moz-column-gap: 20px;
+    column-gap: 20px;
+}
+.modal .frame .container .line.flex .left,
+.modal .frame .container .line .box .left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.modal .frame .container .line.flex .right,
+.modal .frame .container .line .box .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal .frame .container .line.flex .last,
+.modal .frame .container .line .box .last {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal .frame .container .line .box .right {
+  text-align: center;
+  flex: 0.2;
+}
+.modal .frame .container .line .box .last .action-btn {
+  font-size: 2em;
+}
+.modal .frame .container .line .text-danger,
+.modal .frame .container .line .action-danger {
+  color: red;
+  transition-duration: 0.2s;
+}
+.modal .frame .container .line .text-danger:hover,
+.modal .frame .container .line .action-danger:hover {
+  transition-duration: 0.2s;
+  color: darkred;
+}
+.modal .frame .container .line .action-success {
+  color: rgb(32, 255, 118);
+  transition-duration: 0.2s;
+}
+.modal .frame .container .line .action-success:hover {
+  transition-duration: 0.2s;
+  color: green;
+}
+.modal .frame .footer-modal {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid rgb(190, 190, 190);
+  padding-top: 20px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.modal .frame .footer-modal button {
+  border: none;
+  padding: 5px 20px;
+}
+.modal .frame .footer-modal .cancel {
+  background: transparent;
+}
+.modal .frame .footer-modal .submit {
+  background: var(--blue);
+  color: white;
+  border-radius: 20px;
+  transition-duration: 0.2s;
+}
+.modal .frame .footer-modal .submit:hover {
+  background: #6399c0;
+  transition-duration: 0.2s;
+}
+
+@media only screen and (max-width: 650px) {
+  .modal .frame .header {
+    display: none;
+  }
+  .modal .frame .container {
+    margin-top: 0px;
+    padding: 10px;
+  }
+  .modal .frame .container .line .protect-newline span {
+    display: none;
+  }
+    .modal .frame .footer-modal {
+        justify-content: center;
+        border: none;
+        padding-bottom: 80px;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+  .modal .frame .footer-modal .submit {
+    width: 80%;
+    height: 50px;
+    font-size: 1.2em;
+  }
+}/*# sourceMappingURL=deposit.css.map */

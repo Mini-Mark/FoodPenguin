@@ -1,0 +1,269 @@
+@{
+    ViewData["Title"] = "Main";
+    ViewData["Css"] = "/css/main.css";
+}
+<div class="main-container">
+    <div class="main-left">
+        <div class="logo">
+            <img src="~/images/logo.jpg" />
+        </div>
+        <div class="label">
+            Food Penguin
+        </div>
+        <hr />
+        <div class="menu">
+            <div class="item item-1 active">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="text">รายการทั้งหมด</div>
+            </div>
+            <div class="item item-2"
+                 >
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div class="text">ประวัติการตั้งรับ - ฝาก</div>
+            </div>
+            <hr />
+            <div class="item item-3">
+                <i class="fa-solid fa-spinner"></i>
+                <div class="text">กำลังดำเนินการ</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="header">
+            <div class="title">
+                <!-- <div class="back-btn active" onclick="history.back">
+                    <i class="fas fa-angle-left"></i>
+                </div> -->
+                รายการทั้งหมด
+            </div>
+            <div class="profile">
+                <div class="name"></div>
+                <div class="image">
+                    <img src="~/images/logo.jpg" />
+                </div>
+                <div class="dropdown">
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1">
+                        <i class="fas fa-pen"></i> &nbsp; แก้ไขโปรไฟล์
+                    </div>
+                    <div class="dropdown-item dropdown-item-2">
+                        <i class="fas fa-door-open"></i> &nbsp;
+                        ออกจากระบบ
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="function-icon">
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1" onclick="order()">
+                        <i class="fa-solid fa-bowl-food"></i>
+                        &nbsp; สั่งอาหาร
+                    </div>
+                    <div class="dropdown-item dropdown-item-2" onclick="receive()">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        &nbsp; รับฝาก
+                    </div>
+                </div>
+                <i class="fa-solid fa-circle-plus"></i>
+            </div>
+            <div class="tool">
+                <div class="search">
+                    <div class="icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input type="text" placeholder="search" onkeyup="sort()" />
+                </div>
+                <div class="sort">
+                    <button>
+                        <i class="fas fa-utensils icon"></i>
+                        <span>จัดเรียง</span>
+                        <i class="fa-solid fa-sort-down"
+                           data-fa-transform="up-3"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item dropdown-item-2" onclick="sort('receive')">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                            &nbsp; รับฝาก
+                        </div>
+                        <div class="dropdown-item dropdown-item-1" onclick="sort('order')">
+                            <i class="fa-solid fa-bowl-food"></i>
+                            &nbsp; สั่งอาหาร
+                        </div>
+                        <div class="dropdown-item dropdown-item-0" onclick="sort('all')">
+                            <i class="fas fa-utensils"></i>
+                            &nbsp; ทั้งหมด
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list" id="list_show"></div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="menu">
+            <div class="item item-1 active">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div class="item item-2"
+                 >
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="item item-3">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var list;
+    var search_type = "all";
+
+    setTimeout(() => {
+        sort("all");
+    }, 100);
+
+    setInterval(() => {
+        sort(search_type);
+    }, 3000);
+
+    function sort(type = search_type) {
+        search_type = type;
+        $.ajax({
+            url:
+                `/List/getList`, 
+            type: "GET",
+            data: {
+                sort: search_type,
+                keyword: $(".content .tool .search input").val()
+            },
+            success: function (data) {
+                $("#list_show").html("");
+                data.value.forEach((item, index) => {
+
+                    var objectHtml = ""
+
+                    if (item.type == "order") {
+
+                        var order_market = item.special != undefined ? item.special : item.market_name;
+
+                        var item_id = item.id != undefined ? item.id : item.order_id;
+
+                        objectHTML = `<div class="item order itemgen-${item_id}" onclick="openOrderDetailPopup(${item_id})">
+                                <div class="main-icon">
+                                    <i class="fa-solid fa-bowl-food"></i>
+                                </div>
+                                <div class="detail">
+                                    <div class="title desc">
+                                        <div class="icon">
+                                            <i class="fa-solid fa-bowl-food"></i>
+                                        </div>
+                                             ${item.location_name} (${order_market})
+                                    </div>
+                                    <div class="desc-1 desc">
+                                        <b>คนสั่ง:</b>
+                                            <p>${item.firstname} ${item.lastname} (${item.nickname})</p>
+                                    </div>
+                                    <div class="desc-3 desc">
+                                        <b>หมายเหตุ:</b><span>
+                                                ${item.remark}
+                                        </span>
+                                    </div>
+                                    <div class="datetime desc">
+                                            <p>${item.time}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+
+                        
+
+                    }
+                    else if (item.type == "receive") {
+
+                        var item_id = item.id != undefined ? item.id : item.recvp_id;
+                        var remark = item.remark != undefined ? item.remark : item.desc;
+                        var max = item.special != undefined ? item.special : item.max;
+
+                        objectHTML = `<div class="item deposit itemgen-${item_id}" onclick="openReceiveDetailPopup(${item_id})">
+                                    <div class="main-icon">
+                                        <i class="fa-solid fa-basket-shopping"></i>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="maximum desc">
+                                                <b>รับ:</b><span>${max}</span>
+                                        </div>
+                                        <div class="title desc">
+                                            <div class="icon">
+                                                <i class="fa-solid fa-basket-shopping"></i>
+                                            </div>
+                                                    ${item.location_name}
+                                        </div>
+                                        <div class="desc-1 desc">
+                                            <b>คนรับฝาก:</b>
+                                                    <p>${item.firstname} ${item.lastname} (${item.nickname})</p>
+                                        </div>
+                                        <div class="desc-3 desc">
+                                            <b>รายละเอียด:</b><span>
+                                                        ${remark}
+                                            </span>
+                                        </div>
+                                        <div class="datetime desc">
+                                            <p>${item.time}</p>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    }
+                    $("#list_show").append(objectHTML);
+                })
+
+            },
+            error: function (error) {
+                $("#list_show").html("");
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+
+
+    function order(){
+    $("#popup-show").html("");
+    $("#popup-show").show();
+    $.ajax({
+        url: `/Home/orderAdd`,
+        dataType: 'text',
+        success: function (data) {
+            $("#popup-show").html(data);
+            $("#popup-show").show();
+            $("#modal-close-btn").on("click", function () {
+                $("#popup-show").hide();
+            });
+        }
+    });
+    }
+
+    function receive() {
+        $("#popup-show").html("");
+        $("#popup-show").show();
+        $.ajax({
+            url: `/Home/receiveAdd`,
+            dataType: 'text',
+            success: function (data) {
+                $("#popup-show").html(data);
+                $("#popup-show").show();
+                $("#modal-close-btn").on("click", function () {
+                    $("#popup-show").hide();
+                });
+            }
+        });
+    }
+</script>

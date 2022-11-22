@@ -1,0 +1,309 @@
+* {
+	font-family: "Prompt", sans-serif;
+}
+
+body {
+	margin: 0px;
+}
+
+.container {
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+}
+
+.container .left {
+	width: 50vw;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container .right {
+	width: 50vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* background: linear-gradient(0deg, rgba(97, 149, 187, 0.658), rgba(73, 144, 194, 0.658)), url(image/login.jpg); */
+	background-blend-mode: normal, multiply;
+	background-position: center;
+	background-size: cover;
+}
+
+.container .right .title {
+	font-size: xx-large;
+	text-align: center;
+	font-weight: 700;
+	width: 280px;
+	color: #ffffff;
+}
+
+.container .left .title {
+	font-size: 50px;
+	text-align: center;
+	font-weight: 700;
+}
+.container .left .subtitle {
+	display: none;
+	font-weight: 00;
+	padding-left: 30px;
+	padding-top: 2px;
+}
+
+.container .left .small-container .user-input,
+.container .left .small-container .password-input,
+.container .left .small-container .button1 {
+	position: relative;
+}
+
+.container .left .small-container .icon {
+	position: absolute;
+	top: 35px;
+	left: 22px;
+	font-size: 25px;
+}
+
+.container .left .small-container .icon2 {
+	position: absolute;
+	top: 18px;
+	right: 50px;
+	color: #ffffff;
+	font-size: 25px;
+}
+
+input {
+	height: 60px;
+	width: 300px;
+	background: #d9d9d9;
+	border: none;
+	margin-top: 20px;
+	padding-left: 70px;
+	border-radius: 15px;
+	font-size: 22px;
+}
+
+.container .button {
+	text-align: center;
+}
+
+.container .button .button1 {
+	text-align: center;
+	height: 60px;
+	width: 360px;
+	margin-top: 20px;
+	color: #ffffff;
+	font-size: 30px;
+	border-radius: 40px;
+	background: #92c2e4;
+	border: none;
+	font-weight: 600;
+	cursor: pointer;
+	transition-duration: 0.2s;
+}
+
+.container .button .button1:hover {
+	background: #b2d0e6;
+	transition-duration: 0.2s;
+	font-size: 30px;
+}
+
+.right .logo1 {
+	width: 249px;
+	height: 249px;
+	border-radius: 50%;
+}
+
+.right .logo {
+	text-align: center;
+}
+
+.left .area{
+    display: none;
+}
+
+@media screen and (max-width: 770px) {
+	.container .left {
+		width: 100vw;
+		/* background: linear-gradient(0deg, rgba(97, 149, 187, 0.658), rgba(73, 144, 194, 0.658)), url(image/login.jpg);
+		background-blend-mode: normal, multiply;
+		background-size: 740px 820px;
+		background-position: center;
+		background-size: cover; */
+		background: rgb(132,163,191);
+	}
+
+		.container .left .small-container {
+			background: #ffffff8f;
+			border-radius: 10px;
+			padding: 26px;
+			padding-top: 60px;
+			width: 300px;
+			height: 310px;
+		}
+
+	.container .right {
+		display: none;
+	}
+
+	input {
+		height: 50px;
+		width: 240px;
+	}
+
+	.container .button .button1 {
+		text-align: center;
+		height: 50px;
+		width: 260px;
+		font-size: 20px;
+	}
+
+	.container .left .title {
+		font-size: 30px;
+		text-align: left;
+		padding-left: 30px;
+	}
+
+	.container .left .subtitle {
+		display: block;
+	}
+
+	.container .left .small-container .icon2 {
+		position: absolute;
+		top: 13px;
+		right: 26px;
+		color: #ffffff;
+		font-size: 25px;
+	}
+
+	.left .area {
+		display: block;
+	}
+
+	.circles {
+		width: 100vw !important;
+	}
+}
+
+/* Background Animatino */
+
+.right .small-container {
+	position: absolute;
+}
+
+.right {
+	background: rgb(132,163,191);
+}
+
+.circles {
+	position: absolute;
+	top: 0;
+	right: 0 !important;
+	width: 50vw;
+	height: 100%;
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+	pointer-events: none;
+	left: auto !important;
+}
+
+.circles li {
+	position: absolute;
+	display: block;
+	list-style: none;
+	width: 20px;
+	height: 20px;
+	background: rgba(255, 255, 255, 0.34);
+	animation: animate 25s linear infinite;
+	bottom: -150px;
+}
+
+.circles li:nth-child(1) {
+	left: 25%;
+	width: 80px;
+	height: 80px;
+	animation-delay: 0s;
+}
+
+.circles li:nth-child(2) {
+	left: 10%;
+	width: 20px;
+	height: 20px;
+	animation-delay: 2s;
+	animation-duration: 12s;
+}
+
+.circles li:nth-child(3) {
+	left: 70%;
+	width: 20px;
+	height: 20px;
+	animation-delay: 4s;
+}
+
+.circles li:nth-child(4) {
+	left: 40%;
+	width: 60px;
+	height: 60px;
+	animation-delay: 0s;
+	animation-duration: 18s;
+}
+
+.circles li:nth-child(5) {
+	left: 65%;
+	width: 20px;
+	height: 20px;
+	animation-delay: 0s;
+}
+
+.circles li:nth-child(6) {
+	left: 75%;
+	width: 110px;
+	height: 110px;
+	animation-delay: 3s;
+}
+
+.circles li:nth-child(7) {
+	left: 35%;
+	width: 150px;
+	height: 150px;
+	animation-delay: 7s;
+}
+
+.circles li:nth-child(8) {
+	left: 50%;
+	width: 25px;
+	height: 25px;
+	animation-delay: 15s;
+	animation-duration: 45s;
+}
+
+.circles li:nth-child(9) {
+	left: 20%;
+	width: 15px;
+	height: 15px;
+	animation-delay: 2s;
+	animation-duration: 35s;
+}
+
+.circles li:nth-child(10) {
+	left: 85%;
+	width: 150px;
+	height: 150px;
+	animation-delay: 0s;
+	animation-duration: 11s;
+}
+
+@keyframes animate {
+	0% {
+		transform: translateY(0) rotate(0deg);
+		opacity: 1;
+		border-radius: 0;
+	}
+
+	100% {
+		transform: translateY(-1000px) rotate(720deg);
+		opacity: 0;
+		border-radius: 50%;
+	}
+}

@@ -1,0 +1,190 @@
+.bigContentBox {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+}
+
+.content .bigContentBox .contentBox .loadIcon {
+  text-align: center;
+  color: #ff9900;
+}
+
+.content .bigContentBox .contentBox .cancelBT {
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  bottom: 75px;
+}
+
+.contentBox {
+  position: relative;
+  background-color: white;
+  width: 100%;
+  height: 97%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+
+.bigContentBox .contentBox {
+  overflow-y: auto;
+  box-sizing: border-box;
+  width: 100%;
+}
+.bigContentBox .contentBox .big-tool {
+  position: fixed;
+  bottom: 60px;
+  right: 40px;
+  text-align: center;
+  width: 300px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+.bigContentBox .contentBox .big-tool .remark {
+  color: red;
+}
+.bigContentBox .contentBox .big-tool button {
+  background: #ffb800;
+  border: none;
+  padding: 12px;
+  color: white;
+  border-radius: 10px;
+  font-size: 1.1em;
+  width: 100%;
+}
+.bigContentBox .contentBox .content-header {
+  color: #ff9900;
+  text-align: center;
+}
+.bigContentBox .contentBox .content-header .icon {
+  font-size: 90px;
+}
+.bigContentBox .contentBox .item-order {
+  margin-top: 15px;
+}
+.bigContentBox .contentBox .item-order:last-child .shop {
+  margin-bottom: 150px;
+}
+.bigContentBox .contentBox .item-order .shop .title {
+  font-size: 1.5em;
+}
+.bigContentBox .contentBox .item-order .shop .flex {
+  display: flex;
+}
+.bigContentBox .contentBox .item-order .shop .flex label {
+  margin-right: 15px;
+}
+.bigContentBox .contentBox .item-order .shop .flex input {
+  margin-right: 15px;
+  border: none;
+  background: rgb(226, 226, 226);
+  width: 100%;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder {
+  margin-left: 20px;
+  font-size: 1.1em;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food {
+  margin-top: 5px;
+  margin-left: 20px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .foodname {
+  display: flex;
+  align-items: center;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .foodname .food-name {
+  font-weight: bold;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .icon {
+  font-size: 0.5em;
+  margin-right: 10px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .remark {
+  color: red;
+  margin-top: 5px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool {
+  display: flex;
+  margin-left: 20px;
+  margin-top: 5px;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool .tool-1 {
+  flex: 1;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool .tool-1 input {
+  width: 100%;
+  min-width: 200px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool .tool-2 {
+  height: 31px;
+  color: #ff7a00;
+  flex: 1;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool .tool-2 input {
+  width: 100%;
+  min-width: 200px;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool .tool-3 {
+  display: flex;
+  align-items: center;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .input-tool .tool-3 button {
+  color: rgb(4, 197, 45);
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .tool-start button {
+  color: blue;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool .tool-success {
+  color: #ff7a00;
+}
+.bigContentBox .contentBox .item-order .shop .item-suborder .item-food .tool button {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-size: 1em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.input-tool {
+  /* display: none !important; */
+}
+
+/* .tool-success {
+  display: none !important;
+} */
+
+@media only screen and (max-width: 650px) {
+  .content {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+  }
+  .bigContentBox {
+    border-radius: 0px;
+  }
+  .bigContentBox .contentBox .big-tool {
+    right: 50%;
+    transform: translateX(50%);
+  }
+  .bigContentBox .contentBox .detail .item-order .item-suborder {
+    margin-left: 0px;
+  }
+  .bigContentBox .contentBox .detail .item-order .item-suborder .item-food {
+    margin-left: 0px;
+  }
+  .bigContentBox .contentBox .detail .item-order .item-suborder .item-food .tool {
+    margin-left: 0px;
+  }
+  .bigContentBox .contentBox .detail .item-order .item-suborder .item-food .tool button {
+    padding: 0px;
+  }
+}/*# sourceMappingURL=step_2_waiting_buying.css.map */

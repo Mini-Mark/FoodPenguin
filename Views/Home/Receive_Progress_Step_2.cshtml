@@ -1,0 +1,280 @@
+@{
+    ViewData["Title"] = "Step 2";
+    ViewData["Css"] = "/css/step_2_waiting_buying.css";
+    ViewData["Css_2"] = "/css/menu.css";
+}
+<div class="main-container">
+    <div class="main-left">
+        <div class="logo">
+            <img src="~/images/logo.jpg" />
+        </div>
+        <div class="label">
+            Food Penguin
+        </div>
+        <hr />
+        <div class="menu">
+            <div class="item item-1">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="text">รายการทั้งหมด</div>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div class="text">ประวัติการตั้งรับ - ฝาก</div>
+            </div>
+            <hr />
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+                <div class="text">กำลังดำเนินการ</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="header">
+            <div class="title">
+                <div class="back-btn active" onclick="history.back">
+                    <i class="fas fa-angle-left"></i>
+                </div>
+                รายการทั้งหมด
+            </div>
+            <div class="profile">
+                <div class="name">Kotcharat Kung</div>
+                <div class="image">
+                    <img src="~/images/logo.jpg" />
+                </div>
+                <div class="dropdown">
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1">
+                        <i class="fas fa-pen"></i> &nbsp; แก้ไขโปรไฟล์
+                    </div>
+                    <div class="dropdown-item dropdown-item-2">
+                        <i class="fas fa-door-open"></i> &nbsp;
+                        ออกจากระบบ
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="bigContentBox">
+                <div class="contentBox">
+                    <div class="big-tool">
+                        <div class="remark">
+                            * กรุณาทำรายการให้เสร็จสิ้นทุกรายการ *
+                        </div>
+                        <button onclick="onSubmitFrom()" >ทำรายการต่อไป</button>
+                    </div>
+                    <div class="content-header">
+                        <h1>
+                            <div class="icon">
+                                <i class="fa-solid fa-clipboard-list"></i>
+                            </div>
+                            <div class="title"><b>สั่งอาหาร</b></div>
+                        </h1>
+                    </div>
+                    <hr />
+                    <div class="detail" id="item-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="menu">
+            <div class="item item-1">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var id = parseInt(window.location.search.replace("?id=", ""));
+    setTimeout(() => {
+        loadData()
+    }, 100);
+
+    var status = 1;
+
+
+    function loadData() {
+        $.ajax({
+            url:
+                `../Receive/getReceiveDetailByID`,
+            type: "GET",
+            data: { recvp_id: id },
+            success: function (data) {
+
+                if (data.value.member.length != 0) {
+                    status = data.value.member[0].status;
+                    console.log(status);
+
+                    //Change Page By Status
+                    if (status != 2) {
+                        switch (parseInt(status)) {
+                            case 0:
+                                location.href = `/Home/Progress_Step_0_Cancel`
+                                break;
+                            case 1:
+                                location.href = `/Home/Receive_Progress_Step_1?id=${id}`
+                                break;
+                            case 2:
+                                location.href = `/Home/Receive_Progress_Step_2?id=${id}`
+                                break;
+                            case 3:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 4:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 5:
+                                location.href = `/Home/Progress_Step_4_Success`
+                                break;
+                        }
+                        return;
+                    }
+                }
+
+                console.log(data);
+
+                data.value.member.forEach((item, index) => {
+                    $.ajax({
+                        url:
+                            `../Order/getOrderDetailByID`,
+                        type: "GET",
+                        data: { order_id: item.order_id },
+                        success: function (order_data) {
+                            sub_data = order_data.value;
+                            console.log(sub_data);
+                            objectHTML = `<div class="item-order">
+                                <div class="shop">
+                                        <div class="title"><u>${sub_data.market_name}</u></div>
+                                    <div class="item-suborder">
+                                        <div class="name">
+                                                        ${sub_data.firstname} ${sub_data.lastname} (${sub_data.nickname})
+                                        </div>
+                                        `;
+
+                            sub_data.food.forEach((food_item, index) => {
+                                objectHTML += `<div class="item-food">
+                                                    <div class="foodname">
+                                                        <i class="icon fas fa-circle"></i>
+                                                        <div class="detail food-name">
+                                                            ${food_item.name} x${food_item.amount}
+                                                        </div>
+                                                    </div>
+                                                    <div class="tool">
+                                                        <div class="tool-start">
+                                                                    <button class="continue" id="continueButton-${food_item.food_id}" onclick="addDetail(${food_item.food_id})">
+                                                                ทำรายการ
+                                                            </button>
+                                                        </div>
+                                                                <div class="input-tool" style="display: none;" id="food-input-tool-${food_item.food_id}">
+                                                                    <div class="tool-1 flex" id="submitButton-${food_item.food_id}">
+                                                                        <label for="remark"
+                                                                               class="remark">หมายเหตุ</label>
+                                                                            <input id="remark-${food_item.food_id}"
+                                                                               type="text" />
+                                                                    </div>
+                                                                    <div class="tool-2 flex">
+                                                                        <label for="price"
+                                                                               class="price">ราคา</label>
+                                                                            <input id="price-${food_item.food_id}"
+                                                                               type="number" />
+                                                                    </div>
+                                                                    <div class="tool-3">
+                                                                                <button class="submit" onclick="submitFoodDetail(${food_item.food_id})">
+                                                                            เสร็จสิ้น
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            <div class="tool-success" style="display: none;" id="finish-input-tool-${food_item.food_id}">
+                                                            ( ทำรายการสำเร็จแล้ว )
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                            });
+
+                                objectHTML += `
+                                    </div>
+                                </div>
+                            </div>`;
+
+                            $("#item-list").append(objectHTML);
+                            
+
+                        },
+                        error: function (error) {
+                            console.log(`Error ${error}`);
+                        }
+                    });
+
+                });
+
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    function addDetail(id) {
+        $(`#continueButton-${id}`).hide();
+        $(`#food-input-tool-${id}`).show();
+    }
+    function submitFoodDetail(id) {
+        $(`#food-input-tool-${id}`).hide();
+        $(`#finish-input-tool-${id}`).show();
+
+        sendData = { 
+                food_id: id,
+                price: $(`#price-${id}`).val(),
+                remark: $(`#remark-${id}`).val(),
+                finish: 1
+            };      
+
+        console.log(sendData);
+
+        $.ajax({
+            url: `../Process_Food/updateProcessFood`,
+            type: "PUT",
+            data: JSON.stringify(sendData),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+
+    }
+
+    function onSubmitFrom() {
+        let text = "คุณต้องการทำรายการเลยหรือไม่";
+        if (confirm(text) == true) {
+            $.ajax({
+                url: `../Process_Order/updateProcessOrderByRecvpID`,
+                type: "PUT",
+                data: JSON.stringify({ recvp_id: id, status: 3 }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    location.href = `/Home/Receive_Progress_Step_3?id=${id}`;
+                },
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,204 @@
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/order.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/popup.css" asp-append-version="true" />
+
+<div class="backdrop-container">
+    <div class="modal">
+        <div class="frame">
+            <div class="header">
+                <h2><b>สั่งอาหาร</b></h2>
+            </div>
+            <div class="container">
+                <div class="line flex">
+                    <div class="left">
+                        <label for="location"><b>สถานที่</b></label>
+                        <div class="select">
+                            <div class="select-icon">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                            <select id="modal-location-data">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <label for="shop"><b>ร้านอาหาร</b></label>
+                        <div class="select">
+                            <div class="select-icon">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                            <select id="modal-location-market">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="title box">
+                        <div class="left">
+                            <div class="protect-newline">
+                                <b>อาหารที่ต้องการสั่ง</b><span class="text-danger">
+                                    ( ถ้าต้องการเพิ่มอาหารให้กด [ + ]
+                                    )
+                                </span>
+                            </div>
+                        </div>
+                        <div class="right"><b>จำนวน</b></div>
+                        <div class="last">&nbsp;</div>
+                    </div>
+                    <div class="foodList" id="foodList">
+                    </div>
+                    <div class="tool box">
+                        <div class="left">
+                            <input type="text" id="food_input"
+                                   placeholder="ชื่ออาหาร" />
+                        </div>
+                        <div class="right">
+                            <input type="number" id="amount_input" placeholder="จำนวน" />
+                        </div>
+                        <div class="last">
+                            <div class="action-btn action-success" onclick="addFood()">
+                                <i class="fas fa-circle-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="line">
+                    <label for="remark">
+                        <b>หมายเหตุ</b><span class="text-danger">( กรอกหรือไม่กรอกก็ได้ )</span>
+                    </label>
+                    <textarea id="remark" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="footer-modal">
+                <button class="cancel" id="modal-close-btn">ยกเลิก</button>
+                <button class="submit" onclick="submit()">สั่งอาหาร</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$.ajax({
+    url: `../Location/getLocation`,
+        type: "GET",
+        success: function (data) {
+            console.log(data)
+
+            getMarket(data.value[0].loc_id);
+
+            data.value.forEach((item, index) => {
+                $("#modal-location-data").append(`<option value='${item.loc_id}'>${item.name}</option>`)
+            });
+
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
+
+    
+    function getMarket(loc_id){
+        $.ajax({
+            url: `../Location/getMarketFromLocID`,
+            type: "GET",
+            data: {
+                'loc_id': loc_id
+            },
+            success: function (data) {
+                console.log(data)
+                $("#modal-location-market").html("");
+                data.value.forEach((item, index) => {
+                    $("#modal-location-market").append(`<option value='${item.market_id}'>${item.name}</option>`)
+                });
+
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    $('#modal-location-data').change(function() {
+        getMarket($(this).val());
+    });
+
+    var data = [];
+    function addFood(){
+
+        food = $("#food_input").val();
+        amount = $("#amount_input").val();
+
+        $("#food_input").val("");
+        $("#amount_input").val("");
+
+        item = `${food},${amount}`;
+        data.push(item);
+
+        showListFood();
+    }
+
+    function removeFood(food){
+        data.splice(data.indexOf(food), 1);
+
+        showListFood();
+    }
+
+    function showListFood(){
+        $("#foodList").html("");
+
+        data.forEach((item,index) => {
+            item_data = item.split(",");
+
+            $("#foodList").append(`<div class="item box">
+                            <div class="left">- ${item_data[0]}</div>
+                            <div class="right">x${item_data[1]}</div>
+                            <div class="last">
+                                <div class="action-btn action-danger" onclick="removeFood('${item}')">
+                                    <i class="fas fa-circle-xmark"></i>
+                                </div>
+                            </div>
+                        </div>`);
+
+        });
+    }
+
+    function submit(){
+
+        if (data.length == 0){
+            alert("กรุณากรอกข้อมูล รายการอาหาร")
+            return;
+        }
+
+        var json = new Object();
+        json.user_id = sessionStorage.getItem("user_id");
+        json.loc_id = $("#modal-location-data").val();
+        json.market_id = $("#modal-location-market").val();
+        json.food = data;
+        json.remark = $("#remark").val();
+
+        var postData = JSON.stringify(json);
+        
+        $.ajax({
+            url: "../Order/insertOrder",
+            type: "POST",
+            data: postData,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                console.log(data)
+                alert("สั่งอาหารสำเร็จ");
+                location.href = `/Home/Order_Progress_Step_1?id=${data.value}`;
+            },
+            error: function(error) {
+                console.log(`Error ${error}`);
+            }
+
+        });
+        
+        
+
+    }
+
+</script>

@@ -1,0 +1,189 @@
+@{
+    ViewData["Title"] = "Step 1";
+    ViewData["Css"] = "/css/Progress_Step_1_wait.css";
+}
+<div class="main-container">
+    <div class="main-left">
+        <div class="logo">
+            <img src="~/images/logo.jpg" />
+        </div>
+        <div class="label">
+            Food Penguin
+        </div>
+        <hr />
+        <div class="menu">
+            <div class="item item-1">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="text">รายการทั้งหมด</div>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div class="text">ประวัติการตั้งรับ - ฝาก</div>
+            </div>
+            <hr />
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+                <div class="text">กำลังดำเนินการ</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="header">
+            <div class="title">
+                <div class="back-btn active" onclick="history.back">
+                    <i class="fas fa-angle-left"></i>
+                </div>
+                รายการทั้งหมด
+            </div>
+            <div class="profile">
+                <div class="name">Kotcharat Kung</div>
+                <div class="image">
+                    <img src="~/images/logo.jpg" />
+                </div>
+                <div class="dropdown">
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1">
+                        <i class="fas fa-pen"></i> &nbsp; แก้ไขโปรไฟล์
+                    </div>
+                    <div class="dropdown-item dropdown-item-2">
+                        <i class="fas fa-door-open"></i> &nbsp;
+                        ออกจากระบบ
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="bigContentBox">
+                <div class="contentBox">
+                    <div class="loadIcon"><h1><i class="fa-solid fa-spinner fa-spin bigIcon"></i><br>รอยืนยันรายการ</h1></div>
+                    <hr>
+                    <div class="location margin-l"><span>สถานที่ร้าน: <span class="text-bold" id="location_name"></span></span></div>
+                    <div class="store margin-l"><span>ร้านที่สั่ง: <span class="text-bold" id="market_name"></span></span></div>
+                    <div class="status margin-l"><span>สถานะ: <span class="text-Yellow text-bold" id="owner">รอคนรับ</span></span></div>
+                    <div class="list margin-l"><span class="text-bold">รายการอาหาร: </span><ul id="food"></ul></div>
+                    <div class="note margin-l" id="remark-title"><span class="text-bold text-Red">หมายเหตุ:</span> <div class="smallNote left"> <span id="remark"></span></div></div>
+                    <div class="cancelBT"><button onclick="cancel()">ยกเลิกคำสั่งซื้อ</button></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="menu">
+            <div class="item item-1">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var id = parseInt(window.location.search.replace("?id=", ""));
+    setTimeout(() => {
+        loadData()
+    }, 100);
+
+    setInterval(() => {
+        loadData()
+    }, 2500);
+
+    function loadData(){
+        $.ajax({
+            url:
+                `../Order/getOrderDetailByID`,
+            type: "GET",
+            data: { order_id: id },
+            success: function (data) {
+
+                //Change Page By Status
+                if(data.value.status != 1){
+                    switch (data.value.status) {
+                        case 0:
+                            location.href = `/Home/Progress_Step_0_Cancel`
+                            break;
+                        case 1:
+                            location.href = `/Home/Order_Progress_Step_1?id=${id}`
+                            break;
+                        case 2:
+                            location.href = `/Home/Order_Progress_Step_2?id=${id}`
+                            break;
+                        case 3:
+                            location.href = `/Home/Order_Progress_Step_3?id=${id}`
+                            break;
+                        case 4:
+                            location.href = `/Home/Order_Progress_Step_3_1?id=${id}`
+                            break;
+                        case 5:
+                            location.href = `/Home/Progress_Step_4_Success`
+                            break;
+                    }
+                    return;
+                }
+
+                $("#location_name").html(data.value.location_name);
+                $("#market_name").html(data.value.market_name);
+                $("#remark").html(data.value.remark);
+
+                if(data.value.remark == ""){
+                    $("#remark-title").hide();
+                }
+
+
+                $("#food").html("");
+                data.value.food.forEach((item, index) => {
+
+                    var objectHTML = `<li>${item.name} x${item.amount}</li>`;
+
+                    $("#food").append(objectHTML);
+                });
+
+
+                if (data.value.owner_recvp_id != undefined) {
+                    $("#owner").addClass("text-active")
+                    $("#owner").removeClass("text-Yellow")
+                    $("#owner").html(data.value.owner_recvp_user_name);
+                } else {
+                    $("#owner").removeClass("text-Yellow")
+                    $("#owner").addClass("text-Yellow")
+                    $("#owner").html("รอคนรับ");
+                }
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    function cancel() {
+        let text = "คุณต้องการยกเลิกรายการหรือไม่";
+        if (confirm(text) == true) {
+            $.ajax({
+                url: `../Order/cancelOrder`,
+                type: "DELETE",
+                data: { order_id: id },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+
+            location.href = '/Home/Progress_Step_0_Cancel';
+        }
+
+        
+    }
+
+
+</script>

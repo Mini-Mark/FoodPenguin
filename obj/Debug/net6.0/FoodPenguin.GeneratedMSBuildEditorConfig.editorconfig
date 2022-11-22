@@ -1,0 +1,121 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = FoodPenguin
+build_property.RootNamespace = FoodPenguin
+build_property.ProjectDir = C:\Users\MiniMark\source\repos\FoodPenguin\FoodPenguin\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\MiniMark\source\repos\FoodPenguin\FoodPenguin
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/history.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxoaXN0b3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/main.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxtYWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/orderAdd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxvcmRlckFkZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/orderDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxvcmRlckRldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Order_Progress_Step_1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxPcmRlcl9Qcm9ncmVzc19TdGVwXzEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Order_Progress_Step_2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxPcmRlcl9Qcm9ncmVzc19TdGVwXzIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Order_Progress_Step_3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxPcmRlcl9Qcm9ncmVzc19TdGVwXzMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Order_Progress_Step_3_1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxPcmRlcl9Qcm9ncmVzc19TdGVwXzNfMS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxwcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/progress_orderlist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxwcm9ncmVzc19vcmRlcmxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Progress_Step_0_Cancel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcm9ncmVzc19TdGVwXzBfQ2FuY2VsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Progress_Step_4_Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcm9ncmVzc19TdGVwXzRfU3VjY2Vzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/receiveAdd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxyZWNlaXZlQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/receiveDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxyZWNlaXZlRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Receive_Progress_Step_1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWNlaXZlX1Byb2dyZXNzX1N0ZXBfMS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Receive_Progress_Step_2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWNlaXZlX1Byb2dyZXNzX1N0ZXBfMi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Receive_Progress_Step_3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWNlaXZlX1Byb2dyZXNzX1N0ZXBfMy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Starter_1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdGFydGVyXzEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Starter_2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdGFydGVyXzIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Home/Starter_3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdGFydGVyXzMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MiniMark/source/repos/FoodPenguin/FoodPenguin/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-y22rqvtcby

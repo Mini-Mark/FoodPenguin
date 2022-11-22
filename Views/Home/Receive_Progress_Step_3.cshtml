@@ -1,0 +1,306 @@
+@{
+    ViewData["Title"] = "Step 3";
+    ViewData["Css"] = "/css/Progress_Step_3fwp.css";
+}
+<div class="main-container">
+    <div class="main-left">
+        <div class="logo">
+            <img src="~/images/logo.jpg" />
+        </div>
+        <div class="label">
+            Food Penguin
+        </div>
+        <hr />
+        <div class="menu">
+            <div class="item item-1">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="text">รายการทั้งหมด</div>
+            </div>
+            <div class="item item-2">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div class="text">ประวัติการตั้งรับ - ฝาก</div>
+            </div>
+            <hr />
+            <div class="item item-3 active">
+                <i class="fa-solid fa-spinner"></i>
+                <div class="text">กำลังดำเนินการ</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="header">
+            <div class="title">
+                <div class="back-btn active" onclick="history.back">
+                    <i class="fas fa-angle-left"></i>
+                </div>
+                รายการทั้งหมด
+            </div>
+            <div class="profile">
+                <div class="name">Kotcharat Kung</div>
+                <div class="image">
+                    <img src="~/images/logo.jpg" />
+                </div>
+                <div class="dropdown">
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+
+                <div class="dropdown-content">
+                    <div class="dropdown-item dropdown-item-1">
+                        <i class="fas fa-pen"></i> &nbsp; แก้ไขโปรไฟล์
+                    </div>
+                    <div class="dropdown-item dropdown-item-2">
+                        <i class="fas fa-door-open"></i> &nbsp;
+                        ออกจากระบบ
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="bigContentBox">
+                <div class="contentBox">
+                    <div class="loadIcon"><h1><i class="fa-solid fa-spinner fa-spin bigIcon"></i><br>รอชำระเงิน</h1></div>
+                    <hr>
+                    <div class="item-list-order flex1">
+                        <div class="status"><span class="texts1 text-bold">รายการคนที่สั่งอาหาร</span></div>
+                        <div class="status2 center-element"><span class="texts2 text-bold">สถานะ </span></div>
+                        <div class="status3 center-element"><span class="texts3 text-bold">ยอดชำระ </span></div>
+                    </div>
+                    <hr>
+                    <div id="listOfOrder"></div>
+                    <div class="space">&nbsp;</div>
+                    <div class="BTcenter">
+                        <div class="PayBTcenter">
+                            <div class="UploadBT"><h5 class="wr1">* กรุณาทำรายการให้เสร็จสิ้นทุกรายการ *</h5><button onclick="onSubmitFrom()">ทำรายการต่อไป</button></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="menu">
+                <div class="item item-1">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div class="item item-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div class="item item-3 active">
+                    <i class="fa-solid fa-spinner"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var id = parseInt(window.location.search.replace("?id=", "").replace("#", ""));
+    setTimeout(() => {
+        generateData();
+        loadData();
+    }, 100);
+
+    setInterval(() => {
+        loadData()
+    }, 2500);
+
+    var status = 1;
+
+
+    function loadData() {
+        $.ajax({
+            url:
+                `../Receive/getReceiveDetailByID`,
+            type: "GET",
+            data: { recvp_id: id },
+            success: function (data) {
+
+                if (data.value.member.length != 0) {
+                    status = data.value.member[0].status;
+                    console.log(status);
+
+                    //Change Page By Status
+                    if (status != 3 && status != 4 && status != 5) {
+                        switch (parseInt(status)) {
+                            case 0:
+                                location.href = `/Home/Progress_Step_0_Cancel`
+                                break;
+                            case 1:
+                                location.href = `/Home/Receive_Progress_Step_1?id=${id}`
+                                break;
+                            case 2:
+                                location.href = `/Home/Receive_Progress_Step_2?id=${id}`
+                                break;
+                            case 3:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 4:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 5:
+                                location.href = `/Home/Progress_Step_4_Success`
+                                break;
+                        }
+                        return;
+                    }
+
+
+                }
+
+                data.value.member.forEach((member_data, index) => {
+                    $.ajax({
+                        url:
+                            `../Process_Order/getProcessOrderDetailByOrderID`,
+                        type: "GET",
+                        data: { order_id: member_data.order_id },
+                        success: function (data_progress) {
+                            if (data_progress.value.pay_img != null) {
+
+                                if (!$(`#check-pay-realmoney-${member_data.order_id}`).is(":checked")) {
+                                    $(`#status-${member_data.order_id}`).html(`<a href="#" class="texts32" onclick="showImage('${data_progress.value.pay_img}')"> ดูสลีป </a>`);
+                                }
+
+                            }
+
+
+                        },
+                        error: function (error) {
+                            console.log(`Error ${error}`);
+                        }
+                    });
+                });
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    //<div class="center-element" > <span class="texts22 " > ชำระด้วยเงินสด </span></div >
+    //    <div class="center-element" > <a href="" class="texts32" > ดูสลีป </a></div >
+    //        <div class="center-element" > <a href="" class="texts42" > รอ </a></div >
+
+
+    function generateData() {
+        $.ajax({
+            url:
+                `../Receive/getReceiveDetailByID`,
+            type: "GET",
+            data: { recvp_id: id },
+            success: function (data) {
+
+                if (data.value.member.length != 0) {
+                    status = data.value.member[0].status;
+                    console.log(status);
+
+                    //Change Page By Status
+                    if (status != 3 && status != 4 && status != 5) {
+                        switch (parseInt(status)) {
+                            case 0:
+                                location.href = `/Home/Progress_Step_0_Cancel`
+                                break;
+                            case 1:
+                                location.href = `/Home/Receive_Progress_Step_1?id=${id}`
+                                break;
+                            case 2:
+                                location.href = `/Home/Receive_Progress_Step_2?id=${id}`
+                                break;
+                            case 3:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 4:
+                                location.href = `/Home/Receive_Progress_Step_3?id=${id}`
+                                break;
+                            case 5:
+                                location.href = `/Home/Progress_Step_4_Success`
+                                break;
+                        }
+                        return;
+                    }
+
+
+                }
+
+                console.log(data);
+                $("#listOfOrder").html("");
+                data.value.member.forEach((member_data, index) => {
+                    $.ajax({
+                        url:
+                            `../Process_Order/getProcessOrderDetailByOrderID`,
+                        type: "GET",
+                        data: { order_id: member_data.order_id },
+                        success: function (data_progress) {
+                            $("#listOfOrder").append(`<div class="item-list-order flex2">
+                                <div class="namef2 ">
+                                    <span class="texts21 ">${member_data.firstname} ${member_data.lastname} (${member_data.nickname})</span><br>
+                                        <div class="c1"><input type="checkbox" class="check1"><label for="check1"> ชำระเงินเสร็จสิ้น</div></label><div class="c2"><input type="checkbox" class="check2" id="check-pay-realmoney-${member_data.order_id}"><label for="check2"> ชำระด้วยเงินสด</label></div>
+                                </div>
+                                        <div class="center-element" id="status-${member_data.order_id}"> <a href="#" class="texts42"> รอ </a></div>
+                                    <div class="center-element"><span class="texts23" id="total-${member_data.order_id}">0</span></div>
+                            </div>
+                            <hr>`);
+
+                            $(`#check-pay-realmoney-${member_data.order_id}`).change(function () {
+                                if (this.checked) {
+                                    $(`#status-${member_data.order_id}`).html(`<span class="texts22 " > ชำระด้วยเงินสด </span>`);
+                                } else {
+                                    $(`#status-${member_data.order_id}`).html(`<a href="#" class="texts42"> รอ </a>`);
+                                }
+                            });
+
+                            $.ajax({
+                                url:
+                                    `../Process_Food/getProcessFoodDetailByOrderID`,
+                                type: "GET",
+                                data: { order_id: member_data.order_id },
+                                success: function (order_food_data) {
+
+                                    var sum = 0;
+
+                                    order_food_data.value.forEach((food_data, index) => {
+                                        sum += food_data.price;
+                                    });
+
+
+                                    $(`#total-${member_data.order_id}`).html(`${sum}`);
+                                },
+                                error: function (error) {
+                                    console.log(`Error ${error}`);
+                                }
+                            });
+
+
+                        },
+                        error: function (error) {
+                            console.log(`Error ${error}`);
+                        }
+                    });
+                });
+            },
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    function onSubmitFrom() {
+        let text = "คุณต้องการทำรายการต่อเลยหรือไม่";
+        if (confirm(text) == true) {
+            $.ajax({
+                url: `../Process_Order/updateProcessOrderByRecvpID`,
+                type: "PUT",
+                data: JSON.stringify({ recvp_id: id, status: 4, finish: true }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    location.href = `/Home/Progress_Step_4_Success`;
+                },
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+        }
+    }
+
+</script>

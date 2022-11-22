@@ -1,0 +1,160 @@
+b {
+  font-weight: bold;
+}
+
+.modal .frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.modal .frame button {
+  cursor: pointer;
+}
+.modal .frame .header {
+  text-align: center;
+  border-bottom: 1px solid rgb(190, 190, 190);
+}
+.modal .frame .header h2 {
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.modal .frame .container {
+  display: flex;
+  flex: 1;
+  margin-top: 30px;
+}
+.modal .frame .container .left {
+  flex: 0.5;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.modal .frame .container .left .image {
+  height: 150px;
+  width: 150px;
+  margin-bottom: 25px;
+}
+.modal .frame .container .left .image img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--blue);
+}
+.modal .frame .container .left .button label {
+  background: var(--blue);
+  color: white;
+  border-radius: 20px;
+  border: none;
+  padding: 5px 20px;
+  transition-duration: 0.2s;
+}
+.modal .frame .container .left .button button:hover {
+  background: #6399c0;
+  transition-duration: 0.2s;
+}
+.modal .frame .container .right {
+  flex: 1;
+}
+.modal .frame .container .right .box {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.modal .frame .container .right .box input {
+  border: none;
+  background: var(--grey);
+  padding: 10px 10px;
+  border-radius: 25px;
+}
+.modal .frame .container .right .line {
+  margin: 15px 0px;
+}
+.modal .frame .container .right .line input[type=file] {
+  padding: 0px;
+}
+.modal .frame .container .right .line input[type=file]::-webkit-file-upload-button {
+  height: 41px;
+  background-color: var(--blue);
+  border: none;
+  color: white;
+  padding: 0px 30px;
+  margin-right: 20px;
+}
+.modal .frame .container .right .double.line {
+  display: flex;
+  flex-wrap: wrap;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+    .modal .frame .footer-modal {
+        display: flex;
+        justify-content: flex-end;
+        border-top: 1px solid rgb(190, 190, 190);
+        padding-top: 20px;
+    }
+        .modal .frame .footer-modal button {
+            border: none;
+            padding: 5px 20px;
+        }
+        .modal .frame .footer-modal .cancel {
+            background: transparent;
+        }
+        .modal .frame .footer-modal .submit {
+            background: var(--blue);
+            color: white;
+            border-radius: 20px;
+            transition-duration: 0.2s;
+        }
+            .modal .frame .footer-modal .submit:hover {
+                background: #6399c0;
+                transition-duration: 0.2s;
+            }
+
+.view-pay-img {
+    text-align: right;
+    margin-top: 5px;
+    text-decoration: underline;
+    cursor: pointer;
+    transition-duration: .2s;
+}
+
+    .view-pay-img:hover {
+        color: #000000af;
+        transition-duration: .2s;
+    }
+
+@media only screen and (max-width: 650px) {
+  .modal .frame .header {
+    display: none;
+  }
+  .modal .frame .container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    flex: none;
+    padding: 10px;
+  }
+  .modal .frame .container .left {
+    flex: none;
+  }
+  .modal .frame .container .left .button {
+    display: none;
+  }
+    .modal .frame .footer-modal {
+        justify-content: center;
+        border: none;
+        padding-bottom: 80px;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .modal .frame .footer-modal .cancel {
+        margin-top: 20px;
+    }
+    .modal .frame .footer-modal .submit {
+        width: 80%;
+        height: 50px;
+        font-size: 1.2em;
+    }
+}/*# sourceMappingURL=profile.css.map */
